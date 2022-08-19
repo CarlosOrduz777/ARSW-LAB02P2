@@ -10,6 +10,7 @@ public class Galgo extends Thread {
 	private int paso;
 	private Carril carril;
 	RegistroLlegada regl;
+	boolean stop;
 
 	public Galgo(Carril carril, String name, RegistroLlegada reg) {
 		super(name);
@@ -34,9 +35,29 @@ public class Galgo extends Thread {
 				}
 				
 			}
+
+			synchronized (this){
+				while (stop){
+					try {
+						this.wait();
+					}catch (InterruptedException e){
+						System.out.println("Error for Stop Galgo");
+					}
+				}
+			}
 		}
 	}
 
+	public void resumeCarril(){
+		setStop(false);
+		synchronized (this){
+			this.notifyAll();
+		}
+	}
+
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
 
 	@Override
 	public void run() {
