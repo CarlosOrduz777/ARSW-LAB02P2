@@ -43,7 +43,7 @@ public class MainCanodromo {
                                     try {
                                         galgos[i].join();
                                     }catch (InterruptedException e){
-
+                                        System.out.println("Error join hilo");
                                     }
 
                                 }
